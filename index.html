@@ -1,97 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Triple Timer Study System</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Study System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
+:root{
+  --bg:#E6DAC8;
+  --surface:#CBB9A4;
+  --surface2:#F4F1EA;
+  --border:#B29079;
+  --border2:#FAF1EA;
+  --text:#4A342A;
+  --muted:#7D5A44;
+  --c1:#AF9980;
+  --c2:#AF9980;
+  --c3:#AF9980;
+  --cb:#F4F1EA;
+  --c1d:#F4F1EA;
+  --c2d:#F4F1EA;
+  --c3d:#F4F1EA;
+  --cbd:#F4F1EA;
+  --radius:10px;
+  --radius-lg:14px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f8f7f4;color:#1a1a1a;min-height:100vh}
-.app{max-width:700px;margin:0 auto;padding:1.5rem 1rem}
-.screen{display:none}.screen.active{display:block}
-select,input[type="text"]{font-family:inherit;font-size:13px;width:100%;padding:7px 10px;border:1px solid #d0cec8;border-radius:8px;background:#fff;color:#1a1a1a;margin-bottom:6px;outline:none}
-select:focus,input:focus{border-color:#888}
-.btn{font-family:inherit;font-size:13px;font-weight:500;padding:8px 16px;border:1px solid #d0cec8;border-radius:8px;background:transparent;color:#1a1a1a;cursor:pointer;transition:background .12s,transform .08s}
-.btn:hover{background:#f0ede8}.btn:active{transform:scale(0.98)}
-.btn-primary{background:#1a1a1a;color:#fff;border-color:transparent}
-.btn-primary:hover{background:#333;opacity:1}
-.btn-sm{font-size:12px;padding:5px 11px}
-.btn-danger{border-color:#f0a0a0;color:#c0392b}
-.btn-danger:hover{background:#fdf0f0}
-.card{background:#fff;border:1px solid #e8e5e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
-.slabel{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#888;margin-bottom:8px}
-.tblock{border:1px solid #e8e5e0;border-radius:12px;background:#f8f7f4;padding:1rem}
-.tblock-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.d1{background:#1D9E75}.d2{background:#378ADD}.d3{background:#D85A30}.db{background:#7F77DD}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-weight:400;
+  min-height:100vh;
+  line-height:1.5;
+}
+.app{max-width:660px;margin:0 auto;padding:2rem 1.25rem}
+
+.screen{display:none}.screen.active{display:block;animation:fadeUp .25s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Typography ── */
+.page-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:38px;
+  letter-spacing:.04em;
+  color:var(--text);
+  margin-bottom:2px;
+}
+.page-sub{font-size:13px;color:var(--muted);margin-bottom:1.75rem}
+.section-label{
+  font-size:10px;font-weight:500;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:10px;
+}
+
+/* ── Inputs ── */
+select,input[type="text"]{
+  font-family:'DM Sans',sans-serif;
+  font-size:13px;width:100%;
+  padding:9px 12px;
+  background:var(--surface2);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  outline:none;
+  margin-bottom:8px;
+  transition:border-color .15s;
+  appearance:none;
+  -webkit-appearance:none;
+}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888890' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+select:focus,input[type="text"]:focus{border-color:var(--border2)}
+input[type="text"]::placeholder{color:var(--faint)}
+
+/* ── Buttons ── */
+.btn{
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
+  padding:9px 18px;
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  background:transparent;color:var(--muted);
+  cursor:pointer;transition:all .15s;
+  white-space:nowrap;
+}
+.btn:hover{background:var(--surface2);color:var(--text);border-color:var(--faint)}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:var(--text);color:var(--bg);
+  border-color:transparent;font-weight:500;
+}
+.btn-primary:hover{background:#d8d7d8;color:var(--bg)}
+.btn-sm{font-size:12px;padding:6px 12px}
+.btn-danger{color:#f87171;border-color:#3d2020}
+.btn-danger:hover{background:#2a0f0f;color:#fca5a5}
+
+/* ── Cards ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:1.1rem 1.25rem;
+  margin-bottom:12px;
+}
+.tblock{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:1rem;
+}
 .setup-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-.timers-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
-.timer-card{border:1px solid #e8e5e0;border-radius:12px;background:#f8f7f4;padding:14px 12px 10px;text-align:center}
-.tlabel{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:5px}
-.ttime{font-family:'Courier New',monospace;font-size:30px;font-weight:500;letter-spacing:.02em;color:#1a1a1a}
-.ttime.warn{color:#BA7517}.ttime.urgent{color:#E24B4A}
-.tbar{height:3px;border-radius:99px;background:#e0ddd8;margin-top:8px;overflow:hidden}
+
+/* ── Dots ── */
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.d1{background:var(--c1)}.d2{background:var(--c2)}.d3{background:var(--c3)}.db{background:var(--cb)}
+.tblock-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+
+/* ── Timers ── */
+.timers-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.timer-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:16px 12px 12px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.timer-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.timer-card.tc1::before{background:var(--c1)}
+.timer-card.tc2::before{background:var(--c2)}
+.timer-card.tc3::before{background:var(--c3)}
+.tlabel{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:5px}
+.ttime{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:42px;letter-spacing:.04em;
+  color:var(--text);line-height:1;
+  transition:color .3s;
+}
+.ttime.warn{color:#f59e0b}.ttime.urgent{color:var(--c3)}
+.tbar{height:2px;border-radius:99px;background:var(--border);margin-top:10px;overflow:hidden}
 .tbar-fill{height:100%;border-radius:99px;transition:width .9s linear}
-.f1{background:#1D9E75}.f2{background:#378ADD}.f3{background:#D85A30}.fb{background:#7F77DD}
-.msg-card{border:1px solid #e8e5e0;border-radius:12px;background:#fff;padding:1rem 1.25rem;margin-bottom:12px;min-height:52px;display:flex;align-items:center}
-.chip{font-size:12px;font-weight:500;padding:3px 10px;border-radius:99px;background:#e8f0fb;color:#185FA5}
-.chip-n{background:#f0ede8;color:#666;border:1px solid #e0ddd8}
-.chip-break{background:#fef3e2;color:#854F0B}
+.f1{background:var(--c1)}.f2{background:var(--c2)}.f3{background:var(--c3)}.fb{background:var(--cb)}
+
+/* ── Message card ── */
+.msg-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-left:3px solid var(--c1);
+  border-radius:var(--radius-lg);
+  padding:1rem 1.25rem;
+  margin-bottom:14px;
+  min-height:52px;
+  display:flex;align-items:center;
+}
+#msg-text{
+  font-size:14px;line-height:1.6;color:var(--muted);
+  font-style:italic;transition:opacity .3s;
+}
+
+/* ── Stats ── */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.stat{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 10px;text-align:center;
+}
+.sv{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;color:var(--text)}
+.sk{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:3px}
+
+/* ── Controls ── */
 .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.stat{background:#f8f7f4;border-radius:8px;padding:10px;text-align:center}
-.sv{font-size:20px;font-weight:500;color:#1a1a1a}.sk{font-size:11px;color:#888;margin-top:2px}
-.sep{border:none;border-top:1px solid #e8e5e0;margin:10px 0}
-.topic-pill{font-size:12px;padding:3px 10px;border-radius:99px;border:1px solid #d0cec8;color:#666;background:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
-.topic-pill span{font-size:11px;color:#aaa}
-.history-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e8e5e0;font-size:13px}
-.history-row:last-child{border-bottom:none}
+.focus-meta{font-size:12px;color:var(--faint);font-family:'DM Mono',monospace;margin-bottom:4px}
+
+/* ── Chips ── */
+.chip{
+  font-size:11px;font-weight:500;padding:4px 10px;border-radius:99px;
+  background:var(--c2d);color:var(--c2);
+  border:1px solid rgba(75,158,255,.2);
+  display:inline-flex;align-items:center;gap:4px;
+}
+.chip-n{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+.chip-break{background:var(--cbd);color:var(--cb);border-color:rgba(167,139,250,.2)}
+
+/* ── Topic pills ── */
+.topic-pill{
+  font-size:12px;padding:4px 10px;border-radius:99px;
+  border:1px solid var(--border);color:var(--muted);
+  background:var(--surface2);cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.topic-pill .x{font-size:13px;color:var(--faint);line-height:1;cursor:pointer}
+.topic-pill .x:hover{color:var(--c3)}
+
+/* ── Break overlay ── */
+.break-overlay{
+  background:var(--cbd);border:1px solid rgba(167,139,250,.25);
+  border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:12px;text-align:center;
+}
+.break-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:var(--cb);margin-bottom:10px}
+.break-time{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:.04em;color:var(--cb);line-height:1;margin-bottom:12px}
+
+/* ── Suggestions ── */
 .datalist-wrap{position:relative}
 #class-datalist-input{margin-bottom:0}
-.break-overlay{background:#fffbf0;border:1px solid #f0d090;border-radius:12px;padding:1.25rem;margin-bottom:12px;text-align:center}
-.suggestions-box{display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #d0cec8;border-radius:8px;z-index:10;max-height:140px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
-.suggestion-item{padding:8px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid #f0ede8;color:#1a1a1a}
-.suggestion-item:last-child{border-bottom:none}
-.suggestion-item:hover{background:#f8f7f4}
-h1{font-size:22px;font-weight:600;margin-bottom:3px}
-.subtitle{font-size:13px;color:#888;margin-bottom:1.25rem}
-
-@media(prefers-color-scheme:dark){
-  body{background:#1a1a18;color:#e8e5e0}
-  .card{background:#242420;border-color:#3a3a36}
-  .tblock{background:#1a1a18;border-color:#3a3a36}
-  select,input[type="text"]{background:#242420;color:#e8e5e0;border-color:#3a3a36}
-  .btn{color:#e8e5e0;border-color:#3a3a36}.btn:hover{background:#2e2e2a}
-  .btn-primary{background:#e8e5e0;color:#1a1a18}.btn-primary:hover{background:#ccc}
-  .msg-card{background:#242420;border-color:#3a3a36}
-  .timer-card{background:#1a1a18;border-color:#3a3a36}
-  .stat{background:#1a1a18}.sv{color:#e8e5e0}
-  .chip{background:#0c3060;color:#85B7EB}
-  .chip-n{background:#2a2a26;color:#aaa;border-color:#3a3a36}
-  .chip-break{background:#3a2800;color:#EF9F27}
-  .topic-pill{background:#242420;border-color:#3a3a36;color:#aaa}
-  .tbar{background:#3a3a36}
-  .break-overlay{background:#2a2000;border-color:#5a4000}
-  .suggestions-box{background:#242420;border-color:#3a3a36;box-shadow:0 4px 12px rgba(0,0,0,0.4)}
-  .suggestion-item{color:#e8e5e0;border-color:#3a3a36}.suggestion-item:hover{background:#2e2e2a}
-  .history-row{border-color:#3a3a36}
-  .sep{border-color:#3a3a36}
+.suggestions-box{
+  display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:var(--radius);z-index:20;max-height:150px;overflow-y:auto;
 }
+.suggestion-item{
+  padding:9px 12px;cursor:pointer;font-size:13px;
+  border-bottom:1px solid var(--border);color:var(--text);
+  transition:background .1s;
+}
+.suggestion-item:last-child{border-bottom:none}
+.suggestion-item:hover{background:var(--surface);color:var(--text)}
+
+/* ── History ── */
+.history-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;
+}
+.history-row:last-child{border-bottom:none}
+.history-row .hr-name{color:var(--text)}
+.history-row .hr-meta{color:var(--muted);font-family:'DM Mono',monospace;font-size:12px}
+
+.sep{border:none;border-top:1px solid var(--border);margin:12px 0}
+
+/* ── Done screen ── */
+.done-mark{
+  font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:.04em;
+  color:var(--c1);line-height:1;margin-bottom:.5rem;
+}
+
+/* ── Top bar in study ── */
+.study-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.header-chips{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.header-btns{display:flex;gap:6px}
+
+/* ── Two col setup row ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.field-label{font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- SETUP -->
+  <!-- ═══ SETUP ═══ -->
   <div id="setup" class="screen active">
-    <h1>Study session setup</h1>
-    <p class="subtitle">Your classes are saved automatically.</p>
+    <div class="page-title">Triple Timer</div>
+    <div class="page-sub">Study system — configure your session and go.</div>
 
     <div class="card">
-      <div class="slabel">Session info</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div class="section-label">Session</div>
+      <div class="two-col">
         <div>
-          <div style="font-size:12px;color:#888;margin-bottom:4px">Subject</div>
+          <div class="field-label">Subject</div>
           <select id="sub">
             <option>Math</option><option>Science</option>
             <option>History / Social Studies</option>
@@ -100,25 +271,25 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
           </select>
         </div>
         <div>
-          <div style="font-size:12px;color:#888;margin-bottom:4px">Class name</div>
+          <div class="field-label">Class name</div>
           <div class="datalist-wrap">
-            <input type="text" id="class-datalist-input" placeholder="e.g. AP Calc BC — Unit 7" autocomplete="off" />
+            <input type="text" id="class-datalist-input" placeholder="e.g. AP Calc BC — Unit 7" autocomplete="off"/>
             <div class="suggestions-box" id="class-suggestions"></div>
           </div>
         </div>
       </div>
-      <div style="font-size:12px;color:#888;margin-bottom:4px">Topics / subsections</div>
+      <div class="field-label">Topics / subsections</div>
       <div style="display:flex;gap:6px;margin-bottom:8px">
-        <input type="text" id="topic-inp" placeholder="e.g. 7.1 Riemann Sums" style="flex:1;margin-bottom:0" />
+        <input type="text" id="topic-inp" placeholder="e.g. 7.1 Riemann Sums" style="flex:1;margin-bottom:0"/>
         <button class="btn btn-sm" onclick="addTopic()">+ add</button>
       </div>
-      <div id="topic-list" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px"></div>
+      <div id="topic-list" style="display:flex;flex-wrap:wrap;gap:6px;min-height:8px"></div>
     </div>
 
     <div class="setup-grid">
       <div class="tblock">
         <div class="tblock-label"><span class="dot d1"></span>Session</div>
-        <div style="font-size:11px;color:#888;margin-bottom:6px">Total study block</div>
+        <div style="font-size:11px;color:var(--faint);margin-bottom:6px">Total block</div>
         <select id="s-session">
           <option value="60">1 hour</option><option value="90" selected>1.5 hours</option>
           <option value="120">2 hours</option><option value="150">2.5 hours</option>
@@ -127,61 +298,69 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
       </div>
       <div class="tblock">
         <div class="tblock-label"><span class="dot d2"></span>Topic</div>
-        <div style="font-size:11px;color:#888;margin-bottom:6px">Per subsection focus</div>
+        <div style="font-size:11px;color:var(--faint);margin-bottom:6px">Per subsection</div>
         <select id="s-topic">
           <option value="15">15 min</option><option value="20" selected>20 min</option>
           <option value="25">25 min</option><option value="30">30 min</option>
         </select>
       </div>
       <div class="tblock">
-        <div class="tblock-label"><span class="dot d3"></span>Focus interval</div>
-        <div style="font-size:11px;color:#888;margin-bottom:6px">Per-drill window</div>
+        <div class="tblock-label"><span class="dot d3"></span>Focus</div>
+        <div style="font-size:11px;color:var(--faint);margin-bottom:6px">Per drill</div>
         <select id="s-focus-m">
           <option value="0">— sec only</option><option value="2">2 min</option>
           <option value="3" selected>3 min</option><option value="5">5 min</option>
           <option value="8">8 min</option><option value="10">10 min</option>
         </select>
-        <select id="s-focus-s"><option value="0" selected>+ 0 sec</option><option value="30">+ 30 sec</option><option value="45">+ 45 sec</option></select>
-        <div style="font-size:11px;color:#888;margin-top:6px;margin-bottom:4px">Step down by</div>
-        <select id="s-step"><option value="15">15 sec</option><option value="30" selected>30 sec</option><option value="60">1 min</option></select>
+        <select id="s-focus-s">
+          <option value="0" selected>+ 0 sec</option>
+          <option value="30">+ 30 sec</option><option value="45">+ 45 sec</option>
+        </select>
+        <div style="font-size:11px;color:var(--faint);margin-top:6px;margin-bottom:4px">Step down by</div>
+        <select id="s-step">
+          <option value="15">15 sec</option><option value="30" selected>30 sec</option>
+          <option value="60">1 min</option>
+        </select>
       </div>
     </div>
 
     <div class="card">
-      <div class="slabel">Break settings</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="section-label">Breaks</div>
+      <div class="two-col" style="margin-bottom:0">
         <div>
-          <div style="font-size:12px;color:#888;margin-bottom:4px">Break duration</div>
+          <div class="field-label">Break duration</div>
           <select id="s-break">
             <option value="5">5 min</option><option value="10" selected>10 min</option>
             <option value="15">15 min</option><option value="20">20 min</option>
           </select>
         </div>
         <div>
-          <div style="font-size:12px;color:#888;margin-bottom:4px">Suggest break every</div>
+          <div class="field-label">Suggest break every</div>
           <select id="s-break-interval">
-            <option value="25">25 min (Pomodoro)</option><option value="45" selected>45 min</option>
-            <option value="60">60 min</option><option value="0">Never</option>
+            <option value="25">25 min (Pomodoro)</option>
+            <option value="45" selected>45 min</option>
+            <option value="60">60 min</option>
+            <option value="0">Never</option>
           </select>
         </div>
       </div>
     </div>
 
-    <div style="display:flex;gap:8px;margin-bottom:12px">
-      <button class="btn btn-primary" style="flex:1" onclick="startSession()">Start session →</button>
-      <button class="btn btn-sm" onclick="showHistory()">View history</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1;padding:11px 18px;font-size:14px" onclick="startSession()">Start session →</button>
+      <button class="btn btn-sm" onclick="showHistory()">History</button>
     </div>
   </div>
 
-  <!-- STUDY -->
+  <!-- ═══ STUDY ═══ -->
   <div id="study" class="screen">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+    <div class="study-header">
+      <div class="header-chips">
         <span class="chip" id="badge-sub">Math</span>
         <span class="chip chip-n" id="badge-topic" style="display:none"></span>
         <span class="chip chip-break" id="badge-break" style="display:none">on break</span>
       </div>
-      <div style="display:flex;gap:6px">
+      <div class="header-btns">
         <button class="btn btn-sm" id="pause-btn" onclick="togglePause()">Pause</button>
         <button class="btn btn-sm" onclick="takeBreak()">Break</button>
         <button class="btn btn-sm" onclick="endSession()">End</button>
@@ -189,17 +368,17 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
     </div>
 
     <div class="timers-row">
-      <div class="timer-card">
+      <div class="timer-card tc1">
         <div class="tlabel"><span class="dot d1"></span>Session</div>
         <div class="ttime" id="t1">--:--</div>
         <div class="tbar"><div class="tbar-fill f1" id="b1" style="width:100%"></div></div>
       </div>
-      <div class="timer-card">
+      <div class="timer-card tc2">
         <div class="tlabel"><span class="dot d2"></span>Topic</div>
         <div class="ttime" id="t2">--:--</div>
         <div class="tbar"><div class="tbar-fill f2" id="b2" style="width:100%"></div></div>
       </div>
-      <div class="timer-card">
+      <div class="timer-card tc3">
         <div class="tlabel"><span class="dot d3"></span>Focus</div>
         <div class="ttime" id="t3">--:--</div>
         <div class="tbar"><div class="tbar-fill f3" id="b3" style="width:100%"></div></div>
@@ -208,21 +387,23 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
 
     <div id="break-panel" style="display:none">
       <div class="break-overlay">
-        <div style="font-size:13px;font-weight:600;color:#854F0B;margin-bottom:8px">Break time</div>
-        <div class="ttime" id="t-break" style="font-size:36px;margin-bottom:12px">--:--</div>
-        <div class="tbar" style="max-width:200px;margin:0 auto 12px"><div class="tbar-fill fb" id="b-break" style="width:100%"></div></div>
+        <div class="break-title">Break</div>
+        <div class="break-time" id="t-break">--:--</div>
+        <div class="tbar" style="max-width:180px;margin:0 auto 14px">
+          <div class="tbar-fill fb" id="b-break" style="width:100%"></div>
+        </div>
         <button class="btn btn-sm" onclick="endBreak()">End break early</button>
       </div>
     </div>
 
     <div class="msg-card">
-      <div style="font-size:14px;line-height:1.6;color:#1a1a1a" id="msg-text">Starting up…</div>
+      <div id="msg-text">Starting up…</div>
     </div>
 
     <div class="stat-grid">
-      <div class="stat"><div class="sv" id="st-studied">0:00</div><div class="sk">studied today</div></div>
+      <div class="stat"><div class="sv" id="st-studied">0:00</div><div class="sk">today</div></div>
       <div class="stat"><div class="sv" id="st-alltime">0h</div><div class="sk">all time</div></div>
-      <div class="stat"><div class="sv" id="st-breaks">0</div><div class="sk">breaks taken</div></div>
+      <div class="stat"><div class="sv" id="st-breaks">0</div><div class="sk">breaks</div></div>
       <div class="stat"><div class="sv" id="st-focus">--</div><div class="sk">focus limit</div></div>
     </div>
 
@@ -232,13 +413,13 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
       <button class="btn btn-sm" onclick="stepUp()">+ loosen</button>
       <button class="btn btn-sm" onclick="nextTopic()">Next topic →</button>
     </div>
-    <div style="font-size:12px;color:#888" id="focus-meta"></div>
+    <div class="focus-meta" id="focus-meta"></div>
   </div>
 
-  <!-- HISTORY -->
+  <!-- ═══ HISTORY ═══ -->
   <div id="history" class="screen">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-      <h1>Study history</h1>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+      <div class="page-title" style="font-size:30px">History</div>
       <button class="btn btn-sm" onclick="show('setup')">← back</button>
     </div>
     <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr">
@@ -247,27 +428,26 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
       <div class="stat"><div class="sv" id="h-breaks">0</div><div class="sk">breaks taken</div></div>
     </div>
     <div class="card" style="margin-top:4px">
-      <div class="slabel">Saved classes</div>
-      <div id="saved-classes" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"></div>
+      <div class="section-label">Saved classes</div>
+      <div id="saved-classes" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;min-height:10px"></div>
       <div class="sep"></div>
-      <div class="slabel">Recent sessions</div>
+      <div class="section-label">Recent sessions</div>
       <div id="session-log"></div>
     </div>
     <button class="btn btn-danger btn-sm" onclick="clearHistory()">Clear all history</button>
   </div>
 
-  <!-- DONE -->
+  <!-- ═══ DONE ═══ -->
   <div id="done" class="screen">
     <div style="text-align:center;padding:2.5rem 1rem">
-      <div style="font-size:36px;margin-bottom:10px">✦</div>
-      <h1 style="margin-bottom:6px">Session complete</h1>
-      <div style="font-size:14px;color:#888;margin-bottom:1.5rem" id="done-sub"></div>
-      <div class="stat-grid" style="max-width:360px;margin:0 auto 1.5rem;grid-template-columns:1fr 1fr 1fr">
+      <div class="done-mark">DONE</div>
+      <div class="page-title" style="font-size:28px;margin-bottom:6px" id="done-sub"></div>
+      <div class="stat-grid" style="max-width:360px;margin:1.5rem auto;grid-template-columns:1fr 1fr 1fr">
         <div class="stat"><div class="sv" id="done-time">0m</div><div class="sk">studied</div></div>
         <div class="stat"><div class="sv" id="done-breaks">0</div><div class="sk">breaks</div></div>
         <div class="stat"><div class="sv" id="done-alltime">0h</div><div class="sk">all time</div></div>
       </div>
-      <div style="font-size:15px;line-height:1.7;max-width:340px;margin:0 auto 2rem" id="done-msg"></div>
+      <div style="font-size:15px;line-height:1.7;color:var(--muted);font-style:italic;max-width:340px;margin:0 auto 2rem" id="done-msg"></div>
       <div style="display:flex;gap:8px;justify-content:center">
         <button class="btn btn-primary" onclick="show('setup')">New session →</button>
         <button class="btn btn-sm" onclick="showHistory()">View history</button>
@@ -277,8 +457,8 @@ h1{font-size:22px;font-weight:600;margin-bottom:3px}
 
 </div>
 <script>
-const DB_KEY = 'studytimer_db';
-const MSGS = {
+const DB_KEY='studytimer_db';
+const MSGS={
   start:["You showed up. That's already more than most.","The hardest part was sitting down. You've done it.","Every expert was once a beginner who refused to quit.","This session matters. Let's make it count."],
   mid:["Frustration is the feeling of your brain building new pathways.","You're in the zone now. Keep the momentum.","Progress isn't always visible — but it's happening.","This is exactly where discipline becomes skill.","You've got this. Stay with it.","Feeling stuck? That's the edge of your understanding. Push through.","The best athletes train when it's hard. So do you.","Pressure builds diamonds. You're in the press.","One focused minute beats ten distracted ones.","Difficulty means you're growing. Easy means you're coasting."],
   topic:["Topic switch — fresh focus, same intensity.","New section, same mission. Let's go.","Reset, refocus, keep climbing.","Clean slate. Bring everything you've got."],
@@ -289,59 +469,57 @@ const MSGS = {
 };
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 
-let db = {sessions:[],classes:[],totalStudiedSec:0,totalBreaks:0};
-let st = {};
-let iv = null;
-let topics = [];
+let db={sessions:[],classes:[],totalStudiedSec:0,totalBreaks:0};
+let st={};
+let iv=null;
+let topics=[];
 
 function loadDB(){
   try{
-    const raw = localStorage.getItem(DB_KEY);
-    if(raw) db = Object.assign({sessions:[],classes:[],totalStudiedSec:0,totalBreaks:0}, JSON.parse(raw));
+    const raw=localStorage.getItem(DB_KEY);
+    if(raw) db=Object.assign({sessions:[],classes:[],totalStudiedSec:0,totalBreaks:0},JSON.parse(raw));
   }catch(e){}
 }
-
 function saveDB(){
-  try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); }catch(e){}
+  try{localStorage.setItem(DB_KEY,JSON.stringify(db));}catch(e){}
 }
 
 function fmt(s){
-  s = Math.max(0, Math.round(s));
+  s=Math.max(0,Math.round(s));
   return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 }
 function fmtHours(s){
-  const h=Math.floor(s/3600), m=Math.round((s%3600)/60);
-  return h>0 ? h+'h '+(m>0?m+'m':'') : m+'m';
+  const h=Math.floor(s/3600),m=Math.round((s%3600)/60);
+  return h>0?h+'h '+(m>0?m+'m':''):m+'m';
 }
 
 function show(id){
   ['setup','study','history','done'].forEach(s=>
-    document.getElementById(s).classList.toggle('active', s===id));
+    document.getElementById(s).classList.toggle('active',s===id));
 }
 
 function addTopic(){
   const inp=document.getElementById('topic-inp');
-  const v=inp.value.trim(); if(!v)return;
-  topics.push(v); inp.value=''; renderTopics();
+  const v=inp.value.trim();if(!v)return;
+  topics.push(v);inp.value='';renderTopics();
 }
 function removeTopic(i){topics.splice(i,1);renderTopics();}
 function renderTopics(){
   document.getElementById('topic-list').innerHTML=topics.map((t,i)=>
-    `<div class="topic-pill">${t} <span onclick="removeTopic(${i})">×</span></div>`).join('');
+    `<div class="topic-pill">${t}<span class="x" onclick="removeTopic(${i})">×</span></div>`).join('');
 }
 
 function initSuggestions(){
   const inp=document.getElementById('class-datalist-input');
-  inp.addEventListener('input', showSuggestions);
-  inp.addEventListener('blur', ()=>setTimeout(()=>document.getElementById('class-suggestions').style.display='none',150));
+  inp.addEventListener('input',showSuggestions);
+  inp.addEventListener('blur',()=>setTimeout(()=>document.getElementById('class-suggestions').style.display='none',150));
 }
 function showSuggestions(){
   const v=document.getElementById('class-datalist-input').value.toLowerCase();
   const box=document.getElementById('class-suggestions');
   const matches=db.classes.filter(c=>c.toLowerCase().includes(v));
   if(!matches.length||!v){box.style.display='none';return;}
-  box.innerHTML=matches.map(c=>
-    `<div class="suggestion-item" onclick="selectClass('${c.replace(/'/g,"\\'")}')">${c}</div>`).join('');
+  box.innerHTML=matches.map(c=>`<div class="suggestion-item" onclick="selectClass('${c.replace(/'/g,"\\'")}')"> ${c}</div>`).join('');
   box.style.display='block';
 }
 function selectClass(c){
@@ -359,15 +537,15 @@ function startSession(){
   const bm=parseInt(document.getElementById('s-break').value)*60;
   const bi=parseInt(document.getElementById('s-break-interval').value)*60;
   st={
-    sub:document.getElementById('sub').value, cls,
-    topics:topics.length?[...topics]:[], topicIdx:0,
-    sesMax:sm, sesLeft:sm,
-    topMax:tm, topLeft:tm,
-    focMax:fm||180, focLeft:fm||180, step,
-    breakMax:bm, breakLeft:0,
-    breakInterval:bi, nextBreakAt:bi||Infinity,
-    onBreak:false, breaksTaken:0,
-    paused:false, msgTimer:0, lastTenFired:false,
+    sub:document.getElementById('sub').value,cls,
+    topics:topics.length?[...topics]:[],topicIdx:0,
+    sesMax:sm,sesLeft:sm,
+    topMax:tm,topLeft:tm,
+    focMax:fm||180,focLeft:fm||180,step,
+    breakMax:bm,breakLeft:0,
+    breakInterval:bi,nextBreakAt:bi||Infinity,
+    onBreak:false,breaksTaken:0,
+    paused:false,msgTimer:0,lastTenFired:false,
     studiedSec:0
   };
   document.getElementById('badge-sub').textContent=st.cls||st.sub;
@@ -375,8 +553,8 @@ function startSession(){
   show('study');
   document.getElementById('break-panel').style.display='none';
   document.getElementById('badge-break').style.display='none';
-  renderTimers(); setMsg(pick(MSGS.start)); updateFocusMeta(); updateStats();
-  clearInterval(iv); iv=setInterval(tick,1000);
+  renderTimers();setMsg(pick(MSGS.start));updateFocusMeta();updateStats();
+  clearInterval(iv);iv=setInterval(tick,1000);
 }
 
 function tick(){
@@ -402,16 +580,16 @@ function tick(){
   if(st.topLeft<=0){
     st.topLeft=st.topMax;
     st.topicIdx=(st.topicIdx+1)%Math.max(st.topics.length,1);
-    updateTopicBadge(); setMsg(pick(MSGS.topic));
+    updateTopicBadge();setMsg(pick(MSGS.topic));
   }
   if(st.sesLeft<=600&&!st.lastTenFired){
     st.lastTenFired=true;
-    setMsg('Ten minutes left in the session. Finish strong.');
-  } else if(st.msgTimer>=90){
-    st.msgTimer=0; setMsg(pick(MSGS.mid));
+    setMsg('Ten minutes left. Finish strong.');
+  }else if(st.msgTimer>=90){
+    st.msgTimer=0;setMsg(pick(MSGS.mid));
   }
   if(st.sesLeft<=0){clearInterval(iv);finishSession();return;}
-  renderTimers(); updateStats();
+  renderTimers();updateStats();
 }
 
 function renderTimers(){
@@ -431,52 +609,54 @@ function updateStats(){
   document.getElementById('st-breaks').textContent=st.breaksTaken;
   document.getElementById('st-focus').textContent=fmt(st.focMax);
 }
-
 function updateTopicBadge(){
   const el=document.getElementById('badge-topic');
   if(st.topics&&st.topics.length){el.textContent=st.topics[st.topicIdx%st.topics.length];el.style.display='';}
   else{el.style.display='none';}
 }
-
 function updateFocusMeta(){
-  document.getElementById('focus-meta').textContent='Focus interval: '+fmt(st.focMax)+'  ·  step: '+fmt(st.step);
+  document.getElementById('focus-meta').textContent='focus: '+fmt(st.focMax)+'  ·  step: '+fmt(st.step);
 }
-
-function setMsg(txt){document.getElementById('msg-text').textContent=txt;}
+function setMsg(txt){
+  const el=document.getElementById('msg-text');
+  el.style.opacity='0';
+  setTimeout(()=>{el.textContent=txt;el.style.opacity='1';},200);
+}
 
 function togglePause(){
   st.paused=!st.paused;
   document.getElementById('pause-btn').textContent=st.paused?'Resume':'Pause';
   setMsg(st.paused?"Paused. Take a breath, then come back.":"Back in it. Let's go.");
 }
-
 function takeBreak(){
   if(st.onBreak)return;
-  st.onBreak=true; st.breakLeft=st.breakMax; st.breaksTaken++;
+  st.onBreak=true;st.breakLeft=st.breakMax;st.breaksTaken++;
   document.getElementById('break-panel').style.display='block';
   document.getElementById('badge-break').style.display='';
   document.getElementById('t-break').textContent=fmt(st.breakMax);
   setMsg(pick(MSGS.breakDue));
   updateStats();
 }
-
 function endBreak(){
   st.onBreak=false;
   document.getElementById('break-panel').style.display='none';
   document.getElementById('badge-break').style.display='none';
   setMsg(pick(MSGS.breakEnd));
 }
-
 function resetFocus(){st.focLeft=st.focMax;renderTimers();}
-function stepDown(){st.focMax=Math.max(30,st.focMax-st.step);st.focLeft=st.focMax;updateFocusMeta();renderTimers();setMsg(pick(MSGS.tight));}
-function stepUp(){st.focMax=st.focMax+st.step;st.focLeft=st.focMax;updateFocusMeta();renderTimers();setMsg('More breathing room. Use it well.');}
+function stepDown(){
+  st.focMax=Math.max(30,st.focMax-st.step);
+  st.focLeft=st.focMax;updateFocusMeta();renderTimers();setMsg(pick(MSGS.tight));
+}
+function stepUp(){
+  st.focMax=st.focMax+st.step;
+  st.focLeft=st.focMax;updateFocusMeta();renderTimers();setMsg('More breathing room. Use it well.');
+}
 function nextTopic(){
   st.topicIdx=(st.topicIdx+1)%Math.max(st.topics.length,1);
-  st.topLeft=st.topMax; updateTopicBadge(); setMsg(pick(MSGS.topic)); renderTimers();
+  st.topLeft=st.topMax;updateTopicBadge();setMsg(pick(MSGS.topic));renderTimers();
 }
-
 function endSession(){clearInterval(iv);finishSession();}
-
 function finishSession(){
   db.totalStudiedSec+=st.studiedSec;
   db.totalBreaks+=st.breaksTaken;
@@ -491,7 +671,6 @@ function finishSession(){
   document.getElementById('done-msg').textContent=pick(MSGS.done);
   show('done');
 }
-
 function showHistory(){
   document.getElementById('h-total').textContent=fmtHours(db.totalStudiedSec);
   document.getElementById('h-sessions').textContent=db.sessions.length;
@@ -499,23 +678,20 @@ function showHistory(){
   const sc=document.getElementById('saved-classes');
   sc.innerHTML=db.classes.length
     ?db.classes.map(c=>`<span class="chip chip-n" style="cursor:pointer" onclick="selectClassFromHistory('${c.replace(/'/g,"\\'")}')">${c}</span>`).join('')
-    :'<span style="font-size:13px;color:#888">No classes saved yet.</span>';
+    :'<span style="font-size:13px;color:var(--faint)">No classes saved yet.</span>';
   const sl=document.getElementById('session-log');
   sl.innerHTML=db.sessions.length
-    ?db.sessions.slice(0,20).map(s=>`<div class="history-row"><span>${s.date} — ${s.cls}</span><span style="color:#888">${fmtHours(s.studied)} · ${s.breaks} break${s.breaks!==1?'s':''}</span></div>`).join('')
-    :'<div style="font-size:13px;color:#888;padding:8px 0">No sessions yet.</div>';
+    ?db.sessions.slice(0,20).map(s=>`<div class="history-row"><span class="hr-name">${s.date} — ${s.cls}</span><span class="hr-meta">${fmtHours(s.studied)} · ${s.breaks} break${s.breaks!==1?'s':''}</span></div>`).join('')
+    :'<div style="font-size:13px;color:var(--faint);padding:8px 0">No sessions yet.</div>';
   show('history');
 }
-
 function selectClassFromHistory(c){
-  document.getElementById('class-datalist-input').value=c;
-  show('setup');
+  document.getElementById('class-datalist-input').value=c;show('setup');
 }
-
 function clearHistory(){
   if(!confirm('Clear all history? This cannot be undone.'))return;
   db={sessions:[],classes:[],totalStudiedSec:0,totalBreaks:0};
-  saveDB(); showHistory();
+  saveDB();showHistory();
 }
 
 document.addEventListener('keydown',e=>{
