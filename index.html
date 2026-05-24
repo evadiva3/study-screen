@@ -705,7 +705,7 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
     <div class="card">
       <svg class="lace-corner tl" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M2,28 Q2,2 28,2" fill="none" stroke="#c4838a" stroke-width="1" opacity="0.5"/><path d="M2,20 Q2,8 14,2" fill="none" stroke="#c4838a" stroke-width="0.6" opacity="0.35"/><circle cx="2" cy="2" r="2" fill="none" stroke="#c4838a" stroke-width="0.8" opacity="0.5"/><circle cx="5" cy="5" r="1.2" fill="none" stroke="#c4838a" stroke-width="0.6" opacity="0.35"/></svg>
       <svg class="lace-corner tr" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M2,28 Q2,2 28,2" fill="none" stroke="#c4838a" stroke-width="1" opacity="0.5"/><path d="M2,20 Q2,8 14,2" fill="none" stroke="#c4838a" stroke-width="0.6" opacity="0.35"/><circle cx="2" cy="2" r="2" fill="none" stroke="#c4838a" stroke-width="0.8" opacity="0.5"/><circle cx="5" cy="5" r="1.2" fill="none" stroke="#c4838a" stroke-width="0.6" opacity="0.35"/></svg>
-      <div class="section-label">Repose</div>
+      <div class="section-label">Breaks</div>
       <div class="two-col" style="margin-bottom:0">
         <div>
           <div class="field-label">Break duration</div>
@@ -759,7 +759,7 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
       </div>
       <div class="header-btns">
         <button class="btn btn-sm" id="pause-btn" onclick="togglePause()">Pause</button>
-        <button class="btn btn-sm" onclick="takeBreak()">Repose</button>
+        <button class="btn btn-sm" onclick="takeBreak()">Break</button>
         <button class="btn btn-sm" onclick="endSession()">End</button>
       </div>
     </div>
@@ -784,7 +784,7 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
 
     <div id="break-panel" style="display:none">
       <div class="break-overlay">
-        <div class="break-title">Repose</div>
+        <div class="break-title">Breaks?</div>
         <div class="break-time" id="t-break">--:--</div>
         <div class="tbar" style="max-width:180px;margin:0 auto 14px">
           <div class="tbar-fill fb" id="b-break" style="width:100%"></div>
@@ -800,7 +800,7 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
     <div class="stat-grid">
       <div class="stat"><div class="sv" id="st-studied">0:00</div><div class="sk">Today</div></div>
       <div class="stat"><div class="sv" id="st-alltime">0h</div><div class="sk">All Time</div></div>
-      <div class="stat"><div class="sv" id="st-breaks">0</div><div class="sk">Reposes</div></div>
+      <div class="stat"><div class="sv" id="st-breaks">0</div><div class="sk">Breaks</div></div>
       <div class="stat"><div class="sv" id="st-focus">--</div><div class="sk">Focus</div></div>
     </div>
 
@@ -836,7 +836,7 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
     <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr">
       <div class="stat"><div class="sv" id="h-total">0h</div><div class="sk">Total Studied</div></div>
       <div class="stat"><div class="sv" id="h-sessions">0</div><div class="sk">Sessions</div></div>
-      <div class="stat"><div class="sv" id="h-breaks">0</div><div class="sk">Reposes</div></div>
+      <div class="stat"><div class="sv" id="h-breaks">0</div><div class="sk">Breaks</div></div>
     </div>
 
     <div class="card" style="margin-top:4px">
@@ -872,7 +872,7 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
       </div>
       <div class="stat-grid" style="max-width:360px;margin:1rem auto 1.5rem;grid-template-columns:1fr 1fr 1fr">
         <div class="stat"><div class="sv" id="done-time">0m</div><div class="sk">Studied</div></div>
-        <div class="stat"><div class="sv" id="done-breaks">0</div><div class="sk">Reposes</div></div>
+        <div class="stat"><div class="sv" id="done-breaks">0</div><div class="sk">Breaks</div></div>
         <div class="stat"><div class="sv" id="done-alltime">0h</div><div class="sk">All Time</div></div>
       </div>
       <div style="font-family:'IM Fell English',serif;font-style:italic;font-size:16px;line-height:1.8;color:var(--ink2);max-width:340px;margin:0 auto 2rem" id="done-msg"></div>
@@ -903,13 +903,14 @@ input[type="text"]::placeholder { color: var(--faint); font-style: italic; }
 </div>
 <script>
 const DB_KEY='studytimer_db';
+//messages!!!
 const MSGS={
   start:["You showed up. That's already more than most.","The hardest part was sitting down. You've done it.","Every expert was once a beginner who refused to quit.","This session matters. Let's make it count."],
   mid:["Frustration is the feeling of your brain building new pathways.","You're in the zone now. Keep the momentum.","Progress isn't always visible — but it's happening.","This is exactly where discipline becomes skill.","You've got this. Stay with it.","Feeling stuck? That's the edge of your understanding. Push through.","The best athletes train when it's hard. So do you.","Pressure builds diamonds. You're in the press.","One focused minute beats ten distracted ones.","Difficulty means you're growing. Easy means you're coasting."],
   topic:["Topic switch — fresh focus, same intensity.","New section, same mission. Let's go.","Reset, refocus, keep climbing.","Clean slate. Bring everything you've got."],
   tight:["Tighter clock, sharper mind.","Less time, more pressure — that's the formula.","You're simulating the real thing now.","Exam pressure, on your terms."],
-  breakDue:["You've earned a moment of repose. Return sharp.","Rest is part of the method. Step away.","Recovery is productive. Take your repose."],
-  breakEnd:["Repose complete. Back to the work.","Refreshed. Let's pick up where you left off.","Rest done. Time to lock back in."],
+  breakDue:["You've earned a moment of break. Return sharp.","Rest is part of the method. Step away.","Recovery is productive. Take your break."],
+  breakEnd:["break complete. Back to the work.","Refreshed. Let's pick up where you left off.","LOCK IN!!!!!"],
   done:["You built something real today. Rest, and come back stronger.","That was a session worth having. The work compounds.","Every hard session is an investment in your future self.","You did the thing. That's what separates good from great."]
 };
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
